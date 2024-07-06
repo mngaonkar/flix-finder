@@ -1,0 +1,8 @@
+DB_FILE_LOCATION = "database/movies.csv"
+DB_NAME = "movies"
+DOCS_LOCATION = "./"
+DEFAULT_CONFIF_FILE = "config.json"
+EMBEDDING_MODEL = "all-MiniLM-L6-v2.gguf2.f16.gguf"
+CHUNK_SIZE = 1000
+CHUNK_OVERLAP = 0
+NO_DOCS_PER_QUERY = 10
