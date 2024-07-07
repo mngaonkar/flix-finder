@@ -57,12 +57,13 @@ class GUI():
         logger.info(f"dataset columns: {columns}")
         logger.info(f"dataset rows: {self.dataset.get_rows()}")
 
-        search_col1, search_col2 = st.columns([4, 1])
-        with search_col1:
-            search_query = st.text_input("", "horror movies with zombies")
+        with st.container(border=True):
+            search_col1, search_col2 = st.columns([4, 1], gap="small", vertical_alignment="center")
+            with search_col1:
+                search_query = st.text_input("", "horror movies with zombies", label_visibility="collapsed")
 
-        with search_col2:
-            search_button = st.button("Search")
+            with search_col2:
+                search_button = st.button("Search")
 
         if search_button:
             st.write(f"Searching movies...")
