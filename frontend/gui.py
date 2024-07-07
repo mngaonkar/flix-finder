@@ -8,44 +8,46 @@ from configuration import Configuration
 import constants
 from backend.loader import DocumentLoader
 from utils import pretty_print_docs, format_docs
+import re
 
 from loguru import logger
 
 class GUI():
     def __init__(self):
         self.dataset = None
+        self.num_cols = constants.NUM_COLUMNS
 
-    def get_context(self, search_query):
+    def get_similar_content(self, search_query):
             """Get the context of the search."""
             doc_list = []
             if self.vector_store is not None:
                 docs = self.vector_store.database.query_document(search_query)
                 for index, (doc, score) in enumerate(docs):
                     logger.info(f"Document {index} score: {score}")
-                    doc_list.append(doc)
+                    doc_list.append(doc.page_content)
 
-                pretty_print_docs(doc_list)
-            return format_docs(doc_list)
+                # pretty_print_docs(doc_list)
+            return doc_list
 
+    def update_movie_recommendations(self, movie_data):
+        """Update the movie recommendations."""
+        poster_images = []
+        for movie in movie_data:
+            match = re.search(r"PosterLink:\s+(.*)", movie)
+            if match:
+                poster_images.append(match.group(1))
+            match = re.search(r"Name:\s+(.*)", movie)
+            if match:
+                logger.info(f"Movie: {match.group(1)}")
+        self.update_movie_posters(poster_images)
+        
+        
     def run(self):
-        image_paths = [
-        "https://upload.wikimedia.org/wikipedia/en/7/70/Terminator1984movieposter.jpg",
-        "https://upload.wikimedia.org/wikipedia/en/7/70/Terminator1984movieposter.jpg",
-        "https://upload.wikimedia.org/wikipedia/en/7/70/Terminator1984movieposter.jpg",
-        "https://upload.wikimedia.org/wikipedia/en/7/70/Terminator1984movieposter.jpg",
-        "https://upload.wikimedia.org/wikipedia/en/7/70/Terminator1984movieposter.jpg",
-        "https://upload.wikimedia.org/wikipedia/en/7/70/Terminator1984movieposter.jpg",
-        ]
-
-        num_cols = 4
-
-        num_rows = math.ceil(len(image_paths) / num_cols)
-        logger.info(f"num_rows: {num_rows}")
-
+        st.set_page_config(page_title="Flix Finder", page_icon="", layout="wide")
         st.title("Flix Finder")
 
         # Initialize backend
-        self.dataset = Dataset(constants.DB_FILE_LOCATION)
+        self.dataset = Dataset(constants.DATASET_FILE)
         self.loader = DocumentLoader(Configuration())
         self.vector_store = VectorStore(self.loader, Configuration())
         self.vector_store.init_vectorstore()
@@ -57,21 +59,33 @@ class GUI():
 
         search_col1, search_col2 = st.columns([4, 1])
         with search_col1:
-            search_query = st.text_input("", "Describe movie here...")
+            search_query = st.text_input("", "horror movies with zombies")
 
         with search_col2:
             search_button = st.button("Search")
 
         if search_button:
             st.write(f"Searching movies...")
-            similar_movies = self.get_context(search_query)
-            logger.info(f"similar_movies: {similar_movies}")
+            similar_movies = self.get_similar_content(search_query)
+            # logger.info(f"similar_movies: {similar_movies}")
+            self.update_movie_recommendations(similar_movies)
 
-        index = 0
-        for row in range(num_rows):
-            cols = st.columns(num_cols, gap="large") 
-            for col in cols:
-                if index >= len(image_paths)-1:
-                    break
-                col.image(image_paths[index], width=200)
-                index = index + 1
+        self.poster_container = st.empty()
+        st.session_state.poster_container = self.poster_container
+        random_movies = self.get_similar_content("horror movies with zombies")
+        self.update_movie_recommendations(random_movies)
+
+    def update_movie_posters(self, image_paths):
+        """Update the movie posters."""
+        logger.info(f"Updating movie posters: {image_paths}")
+        num_rows = math.ceil(len(image_paths) / self.num_cols)
+        st.session_state.poster_container.empty()
+        with st.session_state.poster_container.container():
+            index = 0
+            for row in range(num_rows):
+                cols = st.columns(self.num_cols, gap="small") 
+                for col in cols:
+                    if index >= len(image_paths):
+                        break
+                    col.image(image_paths[index], use_column_width=True)
+                    index = index + 1

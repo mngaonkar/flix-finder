@@ -27,20 +27,27 @@ class DocumentLoader():
 
         return docs
     
-    def load_csv_document(self, csv_location):
+    def load_csv_document(self, csv_location, split_document=False):
         """Load a document from a CSV."""
-        logger.info(f"Loading document from {csv_location}")
+        logger.info(f"Loading document from {csv_location}...")
         loader = CSVLoader(csv_location)
         document = loader.load()
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=constants.CHUNK_SIZE, 
-                                                       chunk_overlap=constants.CHUNK_OVERLAP)
-        docs = text_splitter.split_documents(document)
+        logger.info(f"Document loaded from {csv_location}. Total documents: {len(document)}")
+
+        if split_document:
+            logger.info(f"Splitting document...")
+            text_splitter = RecursiveCharacterTextSplitter(chunk_size=constants.CHUNK_SIZE, 
+                                                        chunk_overlap=constants.CHUNK_OVERLAP)
+            docs = text_splitter.split_documents(document)
+            logger.info(f"Document split into {len(docs)} parts")
+        else:
+            docs = document
 
         return docs
     
     def load_pdf_document(self, pdf_location):
         """Load a document from a PDF."""
-        logger.info(f"Loading document from {pdf_location}")
+        logger.info(f"Loading document from {pdf_location}...")
         loader = PyPDFLoader(pdf_location)
         document = loader.load()
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=constants.CHUNK_SIZE, 

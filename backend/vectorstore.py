@@ -17,7 +17,8 @@ class VectorStore():
         self.database = Database() 
         
     def init_vectorstore(self):
-        database_name = os.path.join(constants.DOCS_LOCATION, constants.DB_NAME + ".db")
+        database_name = os.path.join(constants.DATASET_FILE.split(".")[0] + ".db")
+        logger.info(f"Initializing vector store with database name {database_name}")
 
         self.config.load_config()
         logger.debug(self.config.get_config())
@@ -40,13 +41,24 @@ class VectorStore():
         if not self.vector_db_initialized:
             logger.info("vector store not initialized, initializing...")
             self.database.create_database(database_name)
-            dataset_path = os.path.join(constants.DOCS_LOCATION, constants.DB_NAME + ".csv")
-            docs = self.loader.load_csv_document(dataset_path)
+            docs = self.loader.load_csv_document(constants.DATASET_FILE)
             if len(docs) == 0:
                 logger.error("No documents found.")
                 return
-            logger.info(f"Adding {len(docs)} documents to vector store")
-            self.database.store_documents(docs)
+            
+            # Store the documents in the vector store iteratively
+            logger.info(f"Adding {len(docs)} documents to vector store...")
+            index = 0
+            max_docs = constants.MAX_DOCS_TO_LOAD
+            while index < len(docs) - constants.MAX_DOCS_TO_LOAD:
+                self.database.store_documents(docs[index:max_docs])
+                logger.info(f"Added {index + constants.MAX_DOCS_TO_LOAD} documents to vector store.")
+                index = index + max_docs
+
+            if index < len(docs):
+                self.database.store_documents(docs[index:])
+                logger.info(f"Added {len(docs)} documents to vector store.")
+
             logger.info("Done.")
             self.config.get_vector_store_config(database_name).set_vector_store_status(VectorStoreStatus.READY).save_config()  
         else:
