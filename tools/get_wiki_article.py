@@ -48,7 +48,7 @@ def get_wikitext(dump_filename, offset, page_id=None, title=None, namespace_id=N
 
 
 def find_content():
-    index_line = "349284395:54173:Pulp Fiction"
+    index_line = "18576985806:57445456:Raising the Bar (film)"
     offset, page_id, title = index_line.split(":")
     dump_file = "C:\\Users\\mahad\\Downloads\\enwiki-latest-pages-articles-multistream.xml.bz2"
 
