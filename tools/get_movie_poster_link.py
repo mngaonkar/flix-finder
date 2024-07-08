@@ -2,7 +2,7 @@ import re
 import hashlib
 import urllib.parse
 
-def extract_image_section(file_path):
+def extract_poster_url(file_path):
     # Read the content of the file
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
@@ -34,5 +34,5 @@ def extract_image_section(file_path):
 file_path = "C:\\Users\\mahad\\Downloads\\pulp_fiction_movie_content.txt"
 
 # Extract and print the plot section
-image_section = extract_image_section(file_path)
-print("Poster URL:\n", image_section)
+poster_url = extract_poster_url(file_path)
+print("Movie poster URL:\n", poster_url)
