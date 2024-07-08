@@ -18,7 +18,7 @@ def extract_plot_section(file_path):
         return "Plot section not found."
 
 # Specify the path to your text file
-file_path = 'pulp_fiction_movie_content.txt'
+file_path = "C:\\Users\\mahad\\Downloads\\pulp_fiction_movie_content.txt"
 
 # Extract and print the plot section
 plot_section = extract_plot_section(file_path)
