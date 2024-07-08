@@ -40,15 +40,15 @@ class GUI():
         """Update the movie recommendations."""
         poster_images = []
         for movie in movie_data:
-            match = re.search(r"PosterLink:\s+(.*)", movie)
+            match = re.search(r"poster:\s+(.*)", movie)
             if match:
                 poster_images.append(match.group(1))
-            match = re.search(r"original_title:\s+(.*)", movie)
+            match = re.search(r"title:\s+(.*)", movie)
             if match:
                 logger.info(f"Movie: {match.group(1)}")
-            match = re.search(r"overview:\s+(.*)", movie)
+            match = re.search(r"plot:\s+(.*)", movie)
             if match:
-                logger.info(f"Overview: {match.group(1)}")
+                logger.info(f"Plot: {match.group(1)}")
         self.update_movie_posters(poster_images)
         
         
