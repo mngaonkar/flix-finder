@@ -144,7 +144,7 @@ def main():
             print("poster not found")
             continue
         
-        out_file.write(f"{page_id},{title},{movie_plot},{movie_poster_url}\n")
+        out_file.write(f"{page_id},{title.replace(',', ' ')},{movie_plot},{movie_poster_url}\n")
      
     infile.close()
     out_file.close()
