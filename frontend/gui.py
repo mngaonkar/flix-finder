@@ -46,6 +46,9 @@ class GUI():
             match = re.search(r"original_title:\s+(.*)", movie)
             if match:
                 logger.info(f"Movie: {match.group(1)}")
+            match = re.search(r"overview:\s+(.*)", movie)
+            if match:
+                logger.info(f"Overview: {match.group(1)}")
         self.update_movie_posters(poster_images)
         
         
@@ -67,7 +70,7 @@ class GUI():
         with st.container(border=True):
             search_col1, search_col2 = st.columns([4, 1], gap="small", vertical_alignment="center")
             with search_col1:
-                search_query = st.text_input("", "horror movies with zombies", label_visibility="collapsed", key="search_query")
+                search_query = st.text_input("", "", label_visibility="collapsed", key="search_query")
 
             with search_col2:
                 search_button = st.button("Search")
@@ -82,7 +85,11 @@ class GUI():
 
         self.poster_container = st.empty()
         st.session_state.poster_container = self.poster_container
-        random_movies = self.get_similar_content("horror movies with zombies")
+        if "search_query" in st.session_state and st.session_state.search_query != "":
+            logger.info(f"search_query: {st.session_state.search_query}")
+            random_movies = self.get_similar_content(st.session_state.search_query)
+        else:
+            random_movies = self.get_similar_content("horror movies with zombies")
         self.update_movie_recommendations(random_movies)
 
     def update_movie_posters(self, image_paths):
