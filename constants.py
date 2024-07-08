@@ -1,4 +1,4 @@
-DATASET_FILE = "database/movies_with_poster.csv"
+DATASET_FILE = "database/movies.csv"
 DEFAULT_CONFIF_FILE = "config.json"
 EMBEDDING_MODEL = "all-MiniLM-L6-v2.gguf2.f16.gguf"
 CHUNK_SIZE = 1000
