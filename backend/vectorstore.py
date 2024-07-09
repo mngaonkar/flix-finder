@@ -50,9 +50,9 @@ class VectorStore():
             logger.info(f"Adding {len(docs)} documents to vector store...")
             index = 0
             max_docs = constants.MAX_DOCS_TO_LOAD
-            while index < len(docs) - constants.MAX_DOCS_TO_LOAD:
-                self.database.store_documents(docs[index:max_docs])
-                logger.info(f"Added {index + constants.MAX_DOCS_TO_LOAD} documents to vector store.")
+            while index < len(docs) - max_docs:
+                self.database.store_documents(docs[index:index+max_docs])
+                logger.info(f"Added {index + max_docs} documents to vector store.")
                 index = index + max_docs
 
             if index < len(docs):
