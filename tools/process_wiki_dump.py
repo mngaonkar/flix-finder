@@ -48,6 +48,8 @@ def extract_poster_url(wiki_text):
     # If a match is found, return the content, else return an appropriate message
     if match:
         image_name = match.group(1).strip()
+        if "File:" in image_name:
+            image_name = image_name.split("File:")[1]
         image_name = image_name.replace(" ", "_")
         md5_hash = hashlib.md5()
         md5_hash.update(image_name.encode())
