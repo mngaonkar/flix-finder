@@ -2,6 +2,7 @@ from sys import path
 from venv import logger
 from langchain_milvus import Milvus
 from langchain_community.embeddings import GPT4AllEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 import constants
 import os
 from loguru import logger
@@ -11,7 +12,15 @@ class Database():
         """Create a vector database with a single text."""
         self.db_name = db_name
         self.collection_name = collection_name
-        self.embeddings = GPT4AllEmbeddings(model_name=constants.EMBEDDING_MODEL) # type: ignore
+        model_name = "sentence-transformers/all-mpnet-base-v2"
+        model_kwargs = {'device': 'cpu'}
+        encode_kwargs = {'normalize_embeddings': False}
+        self.embeddings = HuggingFaceEmbeddings(
+            model_name=model_name,
+            model_kwargs=model_kwargs,
+            encode_kwargs=encode_kwargs
+)
+        # self.embeddings = GPT4AllEmbeddings(model_name=constants.EMBEDDING_MODEL) # type: ignore
         
     def check_db_presence(self, db_name):
         """Check if the database is present."""

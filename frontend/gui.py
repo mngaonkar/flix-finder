@@ -41,6 +41,7 @@ class GUI():
         poster_images = []
         for movie in movie_data:
             match = re.search(r"poster:\s+(.*)", movie)
+            logger.info(f"Poster: {match.group(1)}")
             if match:
                 poster_images.append(match.group(1))
             match = re.search(r"title:\s+(.*)", movie)
