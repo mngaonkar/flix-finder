@@ -4,9 +4,13 @@ import bz2
 import re
 import hashlib
 import urllib.parse
+from loguru import logger
 
 WIKI_DUMP_FILE = "C:\\Users\\mahad\\Downloads\\enwiki-latest-pages-articles-multistream.xml.bz2"
 BLOCK_SIZE = 256*1024*10
+
+logger.remove()
+logger.add(sys.stdout, level="INFO")
 
 def load_index(index_file):
     """load movie index """
@@ -14,7 +18,7 @@ def load_index(index_file):
     try:
         file = open(index_file, "r", encoding="utf-8")
     except Exception as e:
-        print(e)
+        logger.error(e)
         
     for line in file.readlines():
         # offset, ID, title
@@ -41,7 +45,7 @@ def extract_cast(wiki_text):
         
 def extract_plot_section(wiki_text):
     # Regular expression to match content between "== Plot ==" and the next "== <any word> =="
-    pattern = re.compile(r'==\s*(Plot|Overview|Contents|Synopsis)\s*==(.*?)\n==\s*\w+\s*==', re.DOTALL)
+    pattern = re.compile(r'==\s*(Plot|Overview|Contents|Synopsis|Premise)\s*==(.*?)\n==\s*\w+\s*==', re.DOTALL)
 
     # Search for the pattern in the content
     match = pattern.search(wiki_text)
@@ -69,9 +73,9 @@ def extract_poster_url(wiki_text):
         md5_hash = hashlib.md5()
         md5_hash.update(image_name.encode())
         hash_string = md5_hash.hexdigest()
-        print("MD5 hash = ", hash_string)
+        logger.debug("MD5 hash = ", hash_string)
         
-        print("Image name = ", image_name)
+        logger.debug(f"Image name {image_name}")
         image_name_encoded = urllib.parse.quote(image_name, safe='')
         # example - https://upload.wikimedia.org/wikipedia/en/3/3b/Pulp_Fiction_%281994%29_poster.jpg
         image_url = "https://upload.wikimedia.org/wikipedia/en/" + hash_string[0] + "/" + hash_string[0:2] + "/" + image_name_encoded
@@ -95,40 +99,40 @@ def get_wiki_text(uncompressed_text, page_id, title=None, namespace_id=None):
         if page_id is not None:
             if page_id != int(page.find("id").text):
                 current_page_id = int(page.find("id").text)
-                # print(f"page id {page_id} not matching with {current_page_id}")
-                continue                                                                                                                                                                
+                # logger.debug(f"page id {page_id} not matching with {current_page_id}")
+                continue
         revision = page.find("revision")
         wikitext = revision.find("text")
         
         return wikitext.text
             
 def main():
-    print("loading index...")
+    logger.info("loading index...")
     index_list = load_index("movie_index.txt")
-    print("index loaded.")
+    logger.info("index loaded.")
     
-    print("open output CSV file...")
+    logger.info("open output CSV file...")
     try:
         out_file = open("movies.csv", "w", encoding="utf-8")
         out_file.write("id, title, cast, plot, poster\n")
     except Exception as e:
-        print(e)
+        logger.error(e)
         return sys.exit(1)
-    print("out file opened")
-                                                                                                                                                        
-    print("open wiki dump file...")
+    logger.info("out file opened")
+
+    logger.info("open wiki dump file...")
     try:
         infile = open(WIKI_DUMP_FILE, "rb")
     except Exception as e:
-        print(e)
+        logger.error(e)
         sys.exit(1)
-    print("wiki dump file opened.")
+    logger.info("wiki dump file opened.")
     
     
     for (offset, page_id, title) in index_list:
-        print(f"processing title: {title} id: {page_id} offset: {offset}...")
+        logger.debug(f"processing title: {title} id: {page_id} offset: {offset}...")
         infile.seek(int(offset))
-        print(f"current file pointer {infile.tell()}")
+        logger.debug(f"current file pointer {infile.tell()}")
         
         unzipper = bz2.BZ2Decompressor()
         uncompressed_data = b""
@@ -142,38 +146,40 @@ def main():
                 if unzipper.eof:
                     break
             except Exception as e:
-                print(e)
+                logger.error(e)
                 break                                                                                                                                                     
                 
         uncompressed_text = uncompressed_data.decode("utf-8")
         
         wiki_text = get_wiki_text(uncompressed_text, int(page_id))
         if wiki_text is None:
-            print("no wiki text found")
+            logger.error("no wiki text found")
             continue
         
         movie_plot = extract_plot_section(wiki_text)
         if movie_plot is None:
-            print("plot not found")
-            # continue
+            logger.debug("plot not found")
+            continue
             
         movie_poster_url = extract_poster_url(wiki_text)
-        print(f"poster = {movie_poster_url}")
+        logger.debug(f"poster = {movie_poster_url}")
         if movie_poster_url is None:
-            print("poster not found")
-            # continue
+            logger.debug("poster not found")
+            continue
         
         cast = extract_cast(wiki_text)
-        print(f"cast = {cast}")
+        logger.debug(f"cast = {cast}")
         if cast is None:
-            print("cast not found")
+            logger.debug("cast not found")
             # continue
-            
+            pass
+        
         out_file.write(f"{page_id},{title.replace(',', ' ')}, {cast},{movie_plot},{movie_poster_url}\n")
-     
+        logger.info(f"{title} added.")
+        
     infile.close()
     out_file.close()
-    print("wiki data processed")
+    logger.info("wiki data processed")
         
 if __name__ == '__main__':
     main()
