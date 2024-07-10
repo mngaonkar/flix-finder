@@ -109,18 +109,19 @@ class GUI():
                 for col in cols:
                     if index >= len(image_paths):
                         break
+                    caption = movie_names[index]
                     if image_paths[index] == "":
                         col.image(constants.DEFAULT_MOVIE_POSTER, use_column_width=True)
                     else:
                         try:
                             urllib.request.urlopen(image_paths[index])
-                            col.image(image_paths[index], caption=movie_names[index], use_column_width=True)
+                            col.image(image_paths[index], caption=caption, use_column_width=True)
                         except Exception as e:
                             try:
                                 urllib.request.urlopen(image_paths[index])
                                 image_paths[index] = image_paths[index].replace("en/", "commons/")
-                                col.image(image_paths[index], caption=movie_names[index], use_column_width=True, output_format="auto")
+                                col.image(image_paths[index], caption=caption, use_column_width=True, output_format="auto")
                             except Exception as e:
                                 image_paths[index] = image_paths[index].replace("en/", "commons/")
-                                col.image("ERR0R_NO_IMAGE_FOUND.jpg", caption=movie_names[index], use_column_width=True, output_format="auto")
+                                col.image("ERR0R_NO_IMAGE_FOUND.jpg", caption=caption, use_column_width=True, output_format="auto")
                     index = index + 1

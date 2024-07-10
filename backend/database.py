@@ -19,7 +19,7 @@ class Database():
             model_name=model_name,
             model_kwargs=model_kwargs,
             encode_kwargs=encode_kwargs
-)
+        )
         # self.embeddings = GPT4AllEmbeddings(model_name=constants.EMBEDDING_MODEL) # type: ignore
         
     def check_db_presence(self, db_name):
