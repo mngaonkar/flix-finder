@@ -1,3 +1,4 @@
+import urllib.request
 import streamlit as st
 from loguru import logger
 import math
@@ -9,6 +10,7 @@ import constants
 from backend.loader import DocumentLoader
 from utils import pretty_print_docs, format_docs
 import re
+import urllib
 
 from loguru import logger
 
@@ -110,5 +112,15 @@ class GUI():
                     if image_paths[index] == "":
                         col.image(constants.DEFAULT_MOVIE_POSTER, use_column_width=True)
                     else:
-                        col.image(image_paths[index], caption=movie_names[index], use_column_width=True, output_format="auto")
+                        try:
+                            urllib.request.urlopen(image_paths[index])
+                            col.image(image_paths[index], caption=movie_names[index], use_column_width=True)
+                        except Exception as e:
+                            try:
+                                urllib.request.urlopen(image_paths[index])
+                                image_paths[index] = image_paths[index].replace("en/", "commons/")
+                                col.image(image_paths[index], caption=movie_names[index], use_column_width=True, output_format="auto")
+                            except Exception as e:
+                                image_paths[index] = image_paths[index].replace("en/", "commons/")
+                                col.image("ERR0R_NO_IMAGE_FOUND.jpg", caption=movie_names[index], use_column_width=True, output_format="auto")
                     index = index + 1
