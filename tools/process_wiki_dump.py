@@ -24,6 +24,21 @@ def load_index(index_file):
     file.close()
     return index_list
 
+def extract_cast(wiki_text):
+    # Regular expression to match content between "== Cast ==" and the next "== <any word> =="
+    pattern = re.compile(r'==\s*(Cast)\s*==(.*?)\n==\s*\w+\s*==', re.DOTALL)
+
+    # Search for the pattern in the content
+    match = pattern.search(wiki_text)
+
+    # If a match is found, return the content, else return an appropriate message
+    if match:
+        content = match.group(2).replace('\n', '')
+        content = content.replace(',', ' ')
+        return content
+    else:
+        return None
+        
 def extract_plot_section(wiki_text):
     # Regular expression to match content between "== Plot ==" and the next "== <any word> =="
     pattern = re.compile(r'==\s*(Plot|Overview|Contents|Synopsis)\s*==(.*?)\n==\s*\w+\s*==', re.DOTALL)
@@ -95,7 +110,7 @@ def main():
     print("open output CSV file...")
     try:
         out_file = open("movies.csv", "w", encoding="utf-8")
-        out_file.write("id, title, plot, poster\n")
+        out_file.write("id, title, cast, plot, poster\n")
     except Exception as e:
         print(e)
         return sys.exit(1)
@@ -131,22 +146,30 @@ def main():
                 break                                                                                                                                                     
                 
         uncompressed_text = uncompressed_data.decode("utf-8")
+        
         wiki_text = get_wiki_text(uncompressed_text, int(page_id))
         if wiki_text is None:
             print("no wiki text found")
             continue
-            
+        
         movie_plot = extract_plot_section(wiki_text)
         if movie_plot is None:
             print("plot not found")
-            continue
+            # continue
+            
         movie_poster_url = extract_poster_url(wiki_text)
         print(f"poster = {movie_poster_url}")
         if movie_poster_url is None:
             print("poster not found")
-            continue
+            # continue
         
-        out_file.write(f"{page_id},{title.replace(',', ' ')},{movie_plot},{movie_poster_url}\n")
+        cast = extract_cast(wiki_text)
+        print(f"cast = {cast}")
+        if cast is None:
+            print("cast not found")
+            # continue
+            
+        out_file.write(f"{page_id},{title.replace(',', ' ')}, {cast},{movie_plot},{movie_poster_url}\n")
      
     infile.close()
     out_file.close()
