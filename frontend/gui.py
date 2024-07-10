@@ -1,3 +1,4 @@
+import urllib.request
 import streamlit as st
 from loguru import logger
 import math
@@ -9,6 +10,7 @@ import constants
 from backend.loader import DocumentLoader
 from utils import pretty_print_docs, format_docs
 import re
+import urllib
 
 from loguru import logger
 
@@ -39,6 +41,7 @@ class GUI():
     def update_movie_recommendations(self, movie_data):
         """Update the movie recommendations."""
         poster_images = []
+        movie_names = []
         for movie in movie_data:
             match = re.search(r"poster:\s+(.*)", movie)
             logger.info(f"Poster: {match.group(1)}")
@@ -47,10 +50,11 @@ class GUI():
             match = re.search(r"title:\s+(.*)", movie)
             if match:
                 logger.info(f"Movie: {match.group(1)}")
+                movie_names.append(match.group(1))
             match = re.search(r"plot:\s+(.*)", movie)
             if match:
                 logger.info(f"Plot: {match.group(1)}")
-        self.update_movie_posters(poster_images)
+        self.update_movie_posters(poster_images, movie_names)
         
         
     def run(self):
@@ -93,7 +97,7 @@ class GUI():
             random_movies = self.get_similar_content("horror movies with zombies")
         self.update_movie_recommendations(random_movies)
 
-    def update_movie_posters(self, image_paths):
+    def update_movie_posters(self, image_paths, movie_names):
         """Update the movie posters."""
         logger.info(f"Updating movie posters: {image_paths}")
         num_rows = math.ceil(len(image_paths) / self.num_cols)
@@ -105,8 +109,19 @@ class GUI():
                 for col in cols:
                     if index >= len(image_paths):
                         break
+                    caption = movie_names[index]
                     if image_paths[index] == "":
                         col.image(constants.DEFAULT_MOVIE_POSTER, use_column_width=True)
                     else:
-                        col.image(image_paths[index], use_column_width=True)
+                        try:
+                            urllib.request.urlopen(image_paths[index])
+                            col.image(image_paths[index], caption=caption, use_column_width=True)
+                        except Exception as e:
+                            try:
+                                urllib.request.urlopen(image_paths[index])
+                                image_paths[index] = image_paths[index].replace("en/", "commons/")
+                                col.image(image_paths[index], caption=caption, use_column_width=True, output_format="auto")
+                            except Exception as e:
+                                image_paths[index] = image_paths[index].replace("en/", "commons/")
+                                col.image("ERR0R_NO_IMAGE_FOUND.jpg", caption=caption, use_column_width=True, output_format="auto")
                     index = index + 1
