@@ -1,8 +1,11 @@
 import sys
 
+
+WIKI_INDEX_FILE = "C:\\Users\\mahad\\Downloads\\enwiki-latest-pages-articles-multistream-index.txt\\enwiki-latest-pages-articles-multistream-index.txt"
+
 def main():
     try:
-        file = open("C:\\Users\\mahad\\Downloads\\enwiki-latest-pages-articles-multistream-index.txt\\enwiki-latest-pages-articles-multistream-index.txt", "r", encoding="utf-8")
+        file = open(WIKI_INDEX_FILE, "r", encoding="utf-8")
     except Exception as e:
         print(e)
         sys.exit(1)
