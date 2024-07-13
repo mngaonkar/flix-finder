@@ -12,7 +12,6 @@ from utils import pretty_print_docs, format_docs
 import re
 import urllib
 import requests
-from st_clickable_images import clickable_images
 
 from loguru import logger
 
