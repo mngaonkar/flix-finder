@@ -12,8 +12,11 @@ from utils import pretty_print_docs, format_docs
 import re
 import urllib
 import requests
-
 from loguru import logger
+import sys
+
+logger.remove()
+logger.add("gui.log", level="DEBUG", rotation="500MB")
 
 class GUI():
     def __init__(self):
