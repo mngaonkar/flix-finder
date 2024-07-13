@@ -11,6 +11,7 @@ from backend.loader import DocumentLoader
 from utils import pretty_print_docs, format_docs
 import re
 import urllib
+import requests
 from st_clickable_images import clickable_images
 
 from loguru import logger
@@ -111,11 +112,16 @@ class GUI():
         """Update the movie posters."""
         logger.info(f"Updating movie posters: {image_paths}")
         num_rows = math.ceil(len(image_paths) / self.num_cols)
+
+        headers = {
+            'User-Agent': 'FlixFinder/1.0 (your-devgaonkar@gmail.com)'
+        }
+        
         st.session_state.poster_container.empty()
         with st.session_state.poster_container.container():
             index = 0
             for row in range(num_rows):
-                cols = st.columns(self.num_cols, gap="small") 
+                cols = st.columns(self.num_cols, gap="small", vertical_alignment="bottom") 
                 for col in cols:
                     if index >= len(image_paths):
                         break
@@ -126,17 +132,23 @@ class GUI():
                         col.image(constants.DEFAULT_MOVIE_POSTER, use_column_width=True)
                     else:
                         try:
-                            urllib.request.urlopen(image_paths[index])
+                            response = requests.get(image_paths[index], headers=headers)
+                            if response.status_code is not 200:
+                                raise Exception(f"Image {image_paths[index]} not found")
                             col.image(image_paths[index], use_column_width=True)
                             col.markdown(f"[{caption}]({wiki_link})")
                         except Exception as e:
+                            logger.error(f"Error: {e}")
                             try:
-                                urllib.request.urlopen(image_paths[index])
                                 image_paths[index] = image_paths[index].replace("en/", "commons/")
+                                response = requests.get(image_paths[index], headers=headers)
+                                if response.status_code is not 200:
+                                    raise Exception(f"Image {image_paths[index]} not found")
+                                
                                 col.image(image_paths[index], use_column_width=True, output_format="auto")
                                 col.markdown(f"[{caption}]({wiki_link})")
                             except Exception as e:
-                                image_paths[index] = image_paths[index].replace("en/", "commons/")
+                                logger.error(f"Error: {e}")
                                 col.image("ERR0R_NO_IMAGE_FOUND.jpg", use_column_width=True, output_format="auto")
                                 col.markdown(f"[{caption}]({wiki_link})")
                     index = index + 1
