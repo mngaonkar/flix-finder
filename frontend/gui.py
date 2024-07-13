@@ -41,6 +41,7 @@ class GUI():
 
     def update_movie_recommendations(self, movie_data):
         """Update the movie recommendations."""
+        logger.info(movie_data)
         poster_images = []
         movie_names = []
         for movie in movie_data:
@@ -59,7 +60,7 @@ class GUI():
         
         
     def run(self):
-        st.set_page_config(page_title="Flix Finder", page_icon="", layout="wide")
+        st.set_page_config(page_title="Flix Finder", page_icon="🐰", layout="wide")
 
         # Hide the Streamlit menu and footer
         hide_streamlit_style = """
@@ -94,7 +95,7 @@ class GUI():
             st.write(f"Searching movies...")
             if "search_query" in st.session_state:
                 similar_movies = self.get_similar_content(st.session_state.search_query)
-                # logger.info(f"similar_movies: {similar_movies}")
+                logger.info(f"similar_movies: {similar_movies}")
                 self.print_movie_names(similar_movies)
                 self.update_movie_recommendations(similar_movies)
 
@@ -132,7 +133,7 @@ class GUI():
                     else:
                         try:
                             response = requests.get(image_paths[index], headers=headers)
-                            if response.status_code is not 200:
+                            if response.status_code != 200:
                                 raise Exception(f"Image {image_paths[index]} not found")
                             col.image(image_paths[index], use_column_width=True)
                             col.markdown(f"[{caption}]({wiki_link})")
@@ -141,7 +142,7 @@ class GUI():
                             try:
                                 image_paths[index] = image_paths[index].replace("en/", "commons/")
                                 response = requests.get(image_paths[index], headers=headers)
-                                if response.status_code is not 200:
+                                if response.status_code != 200:
                                     raise Exception(f"Image {image_paths[index]} not found")
                                 
                                 col.image(image_paths[index], use_column_width=True, output_format="auto")
