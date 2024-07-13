@@ -7,6 +7,7 @@ import urllib.parse
 from loguru import logger
 
 WIKI_DUMP_FILE = "C:\\Users\\mahad\\Downloads\\enwiki-latest-pages-articles-multistream.xml.bz2"
+WIKI_INDEX_FILE = "movie_index.txt" 
 BLOCK_SIZE = 256*1024*10
 
 logger.remove()
@@ -108,7 +109,7 @@ def get_wiki_text(uncompressed_text, page_id, title=None, namespace_id=None):
             
 def main():
     logger.info("loading index...")
-    index_list = load_index("movie_index.txt")
+    index_list = load_index(WIKI_INDEX_FILE)
     logger.info("index loaded.")
     
     logger.info("open output CSV file...")
