@@ -54,9 +54,9 @@ What suggestions do you have for next steps?
 
 #### Outline of project
 
-- [Link to notebook 1]()
-- [Link to notebook 2]()
-- [Link to notebook 3]()
+- [https://github.com/mngaonkar/flix-finder/blob/main/analysis/eda.ipynb](Exploratory Data Analysis)
+
 
 
 ##### Contact and Further Information
+mahadev.gaonkar@gmail.com
