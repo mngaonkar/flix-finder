@@ -19,25 +19,25 @@ Personalized movie recommender system effectively predict user preferences based
 #### Methodology
 The techniques used to solve the challenge
 
-### TF-IDF (Term Frequency-Inverse Document Frequency)
+##### TF-IDF (Term Frequency-Inverse Document Frequency)
 
 Extracts important features from movie descriptions (e.g., keywords from plots).
 Measures how relevant a feature is to a specific movie.
 
-### Cosine Similarity
+##### Cosine Similarity
 
 Measures the similarity between the feature vectors of movies.
 Suggests movies most similar to the ones a user has liked.
 
-### Doc2Vec or Embedding models
+##### Doc2Vec or Embedding models
 
 Vector representations of entire documents or paragraphs
 
-### Classification
+##### Classification
 Refinement with classification models whether a user will like a movie based on like/dislike. 
 
 #### Results
-### The expected results
+##### The expected results
 
 A public hosted website for movie recommendation (developed with web technologies HTML, JavaScript and backend Python services)
 A visual representation of recommendation/relevant movies with summarized insight (plot, characters etc.) labeled
@@ -47,7 +47,7 @@ AI driven search results based on movie theme, actor, genre or simple text descr
 API for integration with external applications 
 Customized top 10 movie lists to watch for users 
 
-### Final results
+##### Final results
 
 #### Next steps
 What suggestions do you have for next steps?
