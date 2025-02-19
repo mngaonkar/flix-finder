@@ -5,9 +5,12 @@ import re
 import hashlib
 import urllib.parse
 from loguru import logger
+import argparse
 
 WIKI_DUMP_FILE = "C:\\Users\\mahad\\Downloads\\enwiki-latest-pages-articles-multistream.xml.bz2"
 WIKI_INDEX_FILE = "movie_index.txt" 
+OUT_FILE = "movies.csv"
+
 BLOCK_SIZE = 256*1024*10
 
 logger.remove()
@@ -108,6 +111,20 @@ def get_wiki_text(uncompressed_text, page_id, title=None, namespace_id=None):
         return wikitext.text
             
 def main():
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument("--index_file", help="Path to the wiki index file")
+    argparser.add_argument("--dump_file", help="Path to the wiki dump file")
+    argparser.add_argument("--out_file", help="Path to the output CSV file")
+    args = argparser.parse_args()
+    if args.index_file:
+        WIKI_INDEX_FILE = args.index_file
+
+    if args.dump_file:
+        WIKI_DUMP_FILE = args.dump_file
+
+    if args.out_file:
+        OUT_FILE = args.out_file
+
     logger.info("loading index...")
     index_list = load_index(WIKI_INDEX_FILE)
     logger.info("index loaded.")
