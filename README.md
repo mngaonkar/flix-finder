@@ -48,9 +48,10 @@ API for integration with external applications
 Customized top 10 movie lists to watch for users 
 
 ##### Final results
+TBD
 
 #### Next steps
-What suggestions do you have for next steps?
+Test neural network based models for embeddings and co-sine similarities
 
 #### Outline of project
 
