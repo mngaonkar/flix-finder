@@ -70,7 +70,7 @@ Refer - https://github.com/mngaonkar/flix-finder/blob/main/capstone/1_movie_reco
 Here is sample of final movie dataset [movies.csv](https://github.com/mngaonkar/flix-finder/blob/main/capstone/data/movies.csv) that is be used for foundation for movie recommender system.
 | id     | title                     | cast                                      | plot                                      | poster                                     | actors                                     |
 |--------|---------------------------|-------------------------------------------|-------------------------------------------|--------------------------------------------|--------------------------------------------|
-| 0      | 3947   Blue Velvet (film) | College student Jeffery Beaumont returns to hi... | https://upload.wikimedia.org/wikipedia/en/ff/d... |                                            |
+| 0      | 3947   Blue Velvet (film) |  | College student Jeffery Beaumont returns to hi... |  https://upload.wikimedia.org/wikipedia/en/ff/d...                                          |
 | 1      | 4231   Buffy the Vampire Slayer (film) | Appearing in uncredited roles are Ben Affleck ... | Buffy is a cheerleader at Hemery High ... | https://upload.wikimedia.org/wikipedia/en/0/09... | Ben Affleck, Ricki Lake, Seth Green, Alexis Ar... |
 | 2      | 4729   Batman & Robin (film) | Arnold Schwarzenegger as Dr. Victor Fries / ... | Batman and his partner Robin encounter a new... | https://upload.wikimedia.org/wikipedia/en/3/37... | Arnold Schwarzenegger, George Clooney, Eric Li... |
 | 3      | 11585  Show Me Love (film) | Alexandra Dahlström as Elin Olsson Rebecka Li... | Two girls Agnes and Elin attend school in th... | https://upload.wikimedia.org/wikipedia/en/9/96... | Elin Olsson Rebecka Liljeberg, Agnes Ahlberg E... |
@@ -83,14 +83,12 @@ The each movie information above is converted to LLM embedding vector by using [
 
 The resultant embedding vector is stored in [Milvus vector database](https://milvus.io). Milvus supports inbox similarity search functionality that is used for finding movies with semantically similar plots. 
 
-[Langchain](https://www.langchain.com) is used as preferred platform to build final application as it supports integration with Hugging Face models as well Milvus vector database.
+[LangChain](https://www.langchain.com) is used as preferred platform to build final application as it supports integration with Hugging Face models as well Milvus vector database.
 
 Refer - https://github.com/mngaonkar/flix-finder/blob/main/capstone/3_movie_recommender_mvp.ipynb
 
 
 #### Outline of project
-
-
 - [Capstone project main directory](https://github.com/mngaonkar/flix-finder/tree/main/capstone)
 - [Capstone Report](https://github.com/mngaonkar/flix-finder/blob/main/capstone/README.md)
 - [Capstone Presentation](https://github.com/mngaonkar/flix-finder/blob/main/capstone/presentation/Movie_Recommender_Mahadev_Gaonkar.pptx) 
@@ -101,4 +99,5 @@ Refer - https://github.com/mngaonkar/flix-finder/blob/main/capstone/3_movie_reco
 
 
 ##### Contact and Further Information
-mahadev.gaonkar@gmail.com
+- Email: mahadev.gaonkar@gmail.com
+- X: @mngaonkar
