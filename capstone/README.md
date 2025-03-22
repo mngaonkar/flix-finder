@@ -3,58 +3,81 @@
 **Author**
 mahadev.gaonkar@gmail.com
 
-#### Executive summary
+### Executive summary
 This project aims to develop a personalized movie recommender system that enhances content discovery by leveraging machine learning and natural language processing techniques. By analyzing user interactions and movie-related data from Wikipedia, the system predicts user preferences and suggests relevant movies. The approach integrates multiple methodologies such as TF-IDF, cosine similarity, Doc2Vec embeddings, and classification models to improve recommendation accuracy. The expected outcome includes a publicly accessible website with an intuitive UI, AI-driven search capabilities, and an API for external integrations, ultimately delivering a seamless and engaging movie discovery experience.
 
-#### Rationale
+### Rationale
 With an overwhelming number of movies available across platforms, users often struggle to find content aligned with their interests. A robust recommender system can enhance user experiences, drive platform engagement, and address content discovery challenges, making it valuable for both users and service providers.
 
-#### Research Question
-Personalized movie recommender system effectively predict user preferences based on past interactions
+### Research Question
+Personalized movie recommender system effectively suggest movies based on either a movie name or plot description
 
-#### Data Sources
+### Data Sources
 - Wikipedia dumps - https://dumps.wikimedia.org/ Links to an external site.
 - Custom processing scripts to filter only movie related content including text and movie poster
 
-#### Methodology
+### Methodology
 The techniques used to solve the challenge
 
-##### TF-IDF (Term Frequency-Inverse Document Frequency)
+#### TF-IDF (Term Frequency-Inverse Document Frequency)
 
 Extracts important features from movie descriptions (e.g., keywords from plots).
 Measures how relevant a feature is to a specific movie.
 
-##### Cosine Similarity
+#### Cosine Similarity
 
 Measures the similarity between the feature vectors of movies.
 Suggests movies most similar to the ones a user has liked.
 
-##### Doc2Vec or Embedding models
+#### Doc2Vec or Embedding models
 
 Vector representations of entire documents or paragraphs
 
-##### Classification
+#### Classification
 Refinement with classification models whether a user will like a movie based on like/dislike. 
 
-#### Results
-##### The expected results
+### Results
+#### The expected results
 
 A public hosted website for movie recommendation (developed with web technologies HTML, JavaScript and backend Python services)
 A visual representation of recommendation/relevant movies with summarized insight (plot, characters etc.) labeled
 Movie poster for enhanced user experience
 Link to movie details on Wikipedia
 AI driven search results based on movie theme, actor, genre or simple text description
-API for integration with external applications 
-Customized top 10 movie lists to watch for users 
 
-##### Final results
+### Final Capstone Report
+#### Objective
+Build a movie recommender project/website for suggesting simlar movies based on movie name or plot description.
+
+#### Exploratory analysis
+Movie data for the project is obtained from Wikipedia pages. The data is under permissive license to be used for commercial as well as non-commerical projects (https://dumps.wikimedia.org/legal.html). The movie data primarily contains title, cast and plot information. The size of the data is over 15K movies.
+
+Following is brief summary of all the approaches considered for movie recommender system.
+
+| Approach           | Pros                                      | Cons                                      |
+|--------------------|-------------------------------------------|-------------------------------------------|
+| TF-IDF             | - Simple<br>- Computationally efficient<br>- No training required | - Limited semantics<br>- Sparse vectors<br>- Works well with small length text |
+| Doc2Vec            | - Good semantic understanding<br>- Dense vectors<br>- Works well with long text like movie descriptions | - Computationally expensive to train<br>- High dependency on good data<br>- Less interpretable |
+| Large Language Model | - Rich contextualization<br>- Good semantic understanding<br>- Pre-trained model can be tuned for specific data | - Resource intensive<br>- Limited input text length based on context window<br>- Less interpretable |
+
+Large Language Model (LLM) based implmentation has the highest recommendation quality hence it's selected as preferred approach for the recommender system implementation.
+
+Refer - https://github.com/mngaonkar/flix-finder/blob/main/capstone/1_movie_recommender_exploratory_data_analysis.ipynb
+
+
+#### Large Language Model (LLM) based implementation
+
 
 #### Next steps
 What suggestions do you have for next steps?
 
 #### Outline of project
 
-- [https://github.com/mngaonkar/flix-finder/blob/main/analysis/eda.ipynb](Exploratory Data Analysis)
+- [https://github.com/mngaonkar/flix-finder/tree/main/capstone](Capstone project main directory)
+- [https://github.com/mngaonkar/flix-finder/blob/main/capstone/presentation/Movie_Recommender_Mahadev_Gaonkar.pptx] Presentation
+- [https://github.com/mngaonkar/flix-finder/blob/main/capstone/1_movie_recommender_exploratory_data_analysis.ipynb] - Exploratory analysis
+- [https://github.com/mngaonkar/flix-finder/blob/main/capstone/2_movie_recommender_inference.ipynb] - PoC with different approaches
+- [https://github.com/mngaonkar/flix-finder/blob/main/capstone/3_movie_recommender_mvp.ipynb] - Final minumum viable project implementation
 
 
 
