@@ -67,17 +67,36 @@ Refer - https://github.com/mngaonkar/flix-finder/blob/main/capstone/1_movie_reco
 
 #### Large Language Model (LLM) based implementation
 
+Here is sample of final movie dataset [movies.csv](https://github.com/mngaonkar/flix-finder/blob/main/capstone/data/movies.csv) that is be used for foundation for movie recommender system.
+| id     | title                     | cast                                      | plot                                      | poster                                     | actors                                     |
+|--------|---------------------------|-------------------------------------------|-------------------------------------------|--------------------------------------------|--------------------------------------------|
+| 0      | 3947   Blue Velvet (film) | College student Jeffery Beaumont returns to hi... | https://upload.wikimedia.org/wikipedia/en/ff/d... |                                            |
+| 1      | 4231   Buffy the Vampire Slayer (film) | Appearing in uncredited roles are Ben Affleck ... | Buffy is a cheerleader at Hemery High ... | https://upload.wikimedia.org/wikipedia/en/0/09... | Ben Affleck, Ricki Lake, Seth Green, Alexis Ar... |
+| 2      | 4729   Batman & Robin (film) | Arnold Schwarzenegger as Dr. Victor Fries / ... | Batman and his partner Robin encounter a new... | https://upload.wikimedia.org/wikipedia/en/3/37... | Arnold Schwarzenegger, George Clooney, Eric Li... |
+| 3      | 11585  Show Me Love (film) | Alexandra Dahlström as Elin Olsson Rebecka Li... | Two girls Agnes and Elin attend school in th... | https://upload.wikimedia.org/wikipedia/en/9/96... | Elin Olsson Rebecka Liljeberg, Agnes Ahlberg E... |
+| 4      | 19055  Manufacturing Consent (film) | None | The film presents and illustrates Chomsky and ... | https://upload.wikimedia.org/wikipedia/en/1/11... |                                            |
+| ...    | ...                       | ...                                       | ...                                       | ...                                        | ...                                        |
+| 15790  | 77243966 Take It to the Limit (film) | Jason BortzLEO Fitzpatrick John Marlo Gretel R... | A troubled teenager goes rock climbing... | https://upload.wikimedia.org/wikipedia/en/4/44... | Jason BortzLEO Fitzpatrick John Marlo Gretel R... |
+| 15791  | 77245209 Firefight (film) | Nick MancusoStephen BaldwinSteve Bacic | Bank robbers get involved with a firestorm... | https://upload.wikimedia.org/wikipedia/en/4/44... | Nick MancusoStephen BaldwinSteve Bacic |
 
-#### Next steps
-What suggestions do you have for next steps?
+The each movie information above is converted to LLM embedding vector by using [Hugging Face sentence transformer all-mpnet-base-v2](https://huggingface.co/sentence-transformers/all-mpnet-base-v2) 
+
+The resultant embedding vector is stored in [Milvus vector database](https://milvus.io). Milvus supports inbox similarity search functionality that is used for finding movies with semantically similar plots. 
+
+[Langchain](https://www.langchain.com) is used as preferred platform to build final application as it supports integration with Hugging Face models as well Milvus vector database.
+
+Refer - https://github.com/mngaonkar/flix-finder/blob/main/capstone/3_movie_recommender_mvp.ipynb
+
 
 #### Outline of project
 
-- [https://github.com/mngaonkar/flix-finder/tree/main/capstone](Capstone project main directory)
-- [https://github.com/mngaonkar/flix-finder/blob/main/capstone/presentation/Movie_Recommender_Mahadev_Gaonkar.pptx] Presentation
-- [https://github.com/mngaonkar/flix-finder/blob/main/capstone/1_movie_recommender_exploratory_data_analysis.ipynb] - Exploratory analysis
-- [https://github.com/mngaonkar/flix-finder/blob/main/capstone/2_movie_recommender_inference.ipynb] - PoC with different approaches
-- [https://github.com/mngaonkar/flix-finder/blob/main/capstone/3_movie_recommender_mvp.ipynb] - Final minumum viable project implementation
+
+- [Capstone project main directory](https://github.com/mngaonkar/flix-finder/tree/main/capstone)
+- [Capstone Report](https://github.com/mngaonkar/flix-finder/blob/main/capstone/README.md)
+- [Capstone Presentation](https://github.com/mngaonkar/flix-finder/blob/main/capstone/presentation/Movie_Recommender_Mahadev_Gaonkar.pptx) 
+- [Exploratory analysis](https://github.com/mngaonkar/flix-finder/blob/main/capstone/1_movie_recommender_exploratory_data_analysis.ipynb)
+- [PoC with different approaches](https://github.com/mngaonkar/flix-finder/blob/main/capstone/2_movie_recommender_inference.ipynb)
+- [Final minumum viable project (MVP) implementation](https://github.com/mngaonkar/flix-finder/blob/main/capstone/3_movie_recommender_mvp.ipynb)
 
 
 
