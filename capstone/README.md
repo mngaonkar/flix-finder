@@ -47,7 +47,7 @@ AI driven search results based on movie theme, actor, genre or simple text descr
 
 ### Final Capstone Report
 #### Objective
-Build a movie recommender project/website for suggesting simlar movies based on movie name or plot description.
+Build a movie recommender project/website for suggesting simlar movies based on movie name or plot description or actor.
 
 #### Exploratory analysis
 Movie data for the project is obtained from Wikipedia pages. The data is under permissive license to be used for commercial as well as non-commerical projects (https://dumps.wikimedia.org/legal.html). The movie data primarily contains title, cast and plot information. The size of the data is over 15K movies.
@@ -107,12 +107,14 @@ Movie recommendation is displayed as follows:
 - [Exploratory analysis](https://github.com/mngaonkar/flix-finder/blob/main/capstone/1_movie_recommender_exploratory_data_analysis.ipynb)
 - [PoC with different approaches](https://github.com/mngaonkar/flix-finder/blob/main/capstone/2_movie_recommender_inference.ipynb)
 - [Final minumum viable project (MVP) implementation](https://github.com/mngaonkar/flix-finder/blob/main/capstone/3_movie_recommender_mvp.ipynb)
+- [Production application code](https://github.com/mngaonkar/flix-finder/tree/main)
 
 #### Capstone application deployment
 Complete source code for production application is available here - https://github.com/mngaonkar/flix-finder/tree/main
 
 The movie recommendation website can be accessed over internet here - https://movies.altbox.one
 
+![Alt Text](https://github.com/mngaonkar/flix-finder/blob/main/capstone/images/movie-website.png?raw=true)
 ##### Contact and Further Information
 - Email: mahadev.gaonkar@gmail.com
 - X: @mngaonkar
