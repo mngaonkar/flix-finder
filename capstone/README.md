@@ -96,6 +96,9 @@ Visualization post converting the matching high dimension embeddeding vectors to
 
 ![Alt text](https://github.com/mngaonkar/flix-finder/blob/main/capstone/images/t-sne-viz.png?raw=true)
 
+Movie recommendation is displayed as follows:
+![Alt text](https://github.com/mngaonkar/flix-finder/blob/main/capstone/images/recommendation-by-plot.png?raw=true)
+
 #### Outline of project
 - [Capstone project main directory](https://github.com/mngaonkar/flix-finder/tree/main/capstone)
 - [Capstone Report](https://github.com/mngaonkar/flix-finder/blob/main/capstone/README.md)
