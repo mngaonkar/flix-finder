@@ -97,6 +97,7 @@ Visualization post converting the matching high dimension embeddeding vectors to
 ![Alt text](https://github.com/mngaonkar/flix-finder/blob/main/capstone/images/t-sne-viz.png?raw=true)
 
 Movie recommendation is displayed as follows:
+
 ![Alt text](https://github.com/mngaonkar/flix-finder/blob/main/capstone/images/recommendation-by-plot.png?raw=true)
 
 #### Outline of project
@@ -107,7 +108,10 @@ Movie recommendation is displayed as follows:
 - [PoC with different approaches](https://github.com/mngaonkar/flix-finder/blob/main/capstone/2_movie_recommender_inference.ipynb)
 - [Final minumum viable project (MVP) implementation](https://github.com/mngaonkar/flix-finder/blob/main/capstone/3_movie_recommender_mvp.ipynb)
 
+#### Capstone application deployment
+Complete source code for production application is available here - https://github.com/mngaonkar/flix-finder/tree/main
 
+The movie recommendation website can be accessed over internet here - https://movies.altbox.one
 
 ##### Contact and Further Information
 - Email: mahadev.gaonkar@gmail.com
