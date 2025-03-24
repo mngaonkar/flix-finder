@@ -87,6 +87,14 @@ The resultant embedding vector is stored in [Milvus vector database](https://mil
 
 Refer - https://github.com/mngaonkar/flix-finder/blob/main/capstone/3_movie_recommender_mvp.ipynb
 
+Here is an example of finding movies with plot "movies about a wizard with dangerous powers"
+- Convert the input text to high dimension vector embedding using sentence transformer all-mpnet-base-v2
+- Perform similarity serach with this input embedding vector on Milvus database
+- Similarity search returns matching embedded vectors based on nearest distance
+
+Visualization post converting the matching high dimension embeddeding vectors to two dimenstion is as follows:
+
+![Alt text](https://github.com/mngaonkar/flix-finder/blob/main/capstone/images/t-sne-viz.png?raw=true)
 
 #### Outline of project
 - [Capstone project main directory](https://github.com/mngaonkar/flix-finder/tree/main/capstone)
