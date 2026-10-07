@@ -127,8 +127,8 @@ pure-eval
 pyarrow==16.1.0
 pyasn1==0.6.0
 pyasn1_modules==0.4.0
-pydantic==2.7.1
-pydantic_core==2.18.2
+pydantic==2.8.2
+pydantic_core==2.20.1
 pydeck==0.9.1
 Pygments
 PyJWT==2.8.0

@@ -1,0 +1,109 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flix-finder
+  labels:
+    name: flix-finder
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flix-finder
+  namespace: flix-finder
+  labels:
+    app: flix-finder
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: flix-finder
+  template:
+    metadata:
+      labels:
+        app: flix-finder
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: ubuntu-s-2vcpu-4gb-sfo3-01
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+      - name: flix-finder
+        image: mngaonkar/flix-finder:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 443
+          hostPort: 443
+          name: https
+        env:
+        - name: PYTHONDONTWRITEBYTECODE
+          value: "1"
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          pip install --no-cache-dir pydantic==2.8.2 pydantic-core==2.20.1 && \
+          exec streamlit run main.py --server.port=443 --server.address=0.0.0.0 --ui.hideTopBar True --client.toolbarMode viewer --server.sslCertFile /etc/letsencrypt/live/movies.altbox.one/fullchain.pem --server.sslKeyFile /etc/letsencrypt/live/movies.altbox.one/privkey.pem
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2500Mi"
+            cpu: "1500m"
+        livenessProbe:
+          httpGet:
+            path: /_stcore/health
+            port: 443
+            scheme: HTTPS
+          initialDelaySeconds: 45
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /_stcore/health
+            port: 443
+            scheme: HTTPS
+          initialDelaySeconds: 20
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        volumeMounts:
+        - name: ssl-certs
+          mountPath: /etc/letsencrypt
+          readOnly: true
+        - name: database-dir
+          mountPath: /app/database
+        - name: config-file
+          mountPath: /app/config.json
+      volumes:
+      - name: ssl-certs
+        hostPath:
+          path: /etc/letsencrypt
+          type: Directory
+      - name: database-dir
+        hostPath:
+          path: /root/code/flix-finder/database
+          type: Directory
+      - name: config-file
+        hostPath:
+          path: /root/code/flix-finder/config.json
+          type: File
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flix-finder-service
+  namespace: flix-finder
+  labels:
+    app: flix-finder
+spec:
+  type: ClusterIP
+  ports:
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: flix-finder
