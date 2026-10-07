@@ -108,6 +108,7 @@ Movie recommendation is displayed as follows:
 - [PoC with different approaches](https://github.com/mngaonkar/flix-finder/blob/main/capstone/2_movie_recommender_inference.ipynb)
 - [Final minumum viable project (MVP) implementation](https://github.com/mngaonkar/flix-finder/blob/main/capstone/3_movie_recommender_mvp.ipynb)
 - [Production application code](https://github.com/mngaonkar/flix-finder/tree/main)
+- [Accelerated Dataset & Vector DB Update Guide](docs/ACCELERATED_DATASET_UPDATE.md)
 
 #### Capstone application deployment
 Complete source code for production application is available here - https://github.com/mngaonkar/flix-finder/tree/main
