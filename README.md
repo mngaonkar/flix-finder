@@ -14,7 +14,7 @@ Personalized movie recommender system effectively suggest movies based on either
 
 ### Data Sources
 - Wikipedia dumps - https://dumps.wikimedia.org/ Links to an external site.
-- Custom processing scripts to filter only movie related content including text and movie poster
+- Custom processing scripts to filter only movie related content including text and movie poster (see [tools/README.md](tools/README.md))
 
 ### Methodology
 The techniques used to solve the challenge
