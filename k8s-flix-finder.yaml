@@ -31,7 +31,7 @@ spec:
       containers:
       - name: flix-finder
         image: mngaonkar/flix-finder:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 443
           hostPort: 443
@@ -39,11 +39,14 @@ spec:
         env:
         - name: PYTHONDONTWRITEBYTECODE
           value: "1"
-        command: ["/bin/sh", "-c"]
+        command: ["streamlit", "run", "main.py"]
         args:
-        - |
-          pip install --no-cache-dir pydantic==2.8.2 pydantic-core==2.20.1 && \
-          exec streamlit run main.py --server.port=443 --server.address=0.0.0.0 --ui.hideTopBar True --client.toolbarMode viewer --server.sslCertFile /etc/letsencrypt/live/movies.altbox.one/fullchain.pem --server.sslKeyFile /etc/letsencrypt/live/movies.altbox.one/privkey.pem
+        - "--server.port=443"
+        - "--server.address=0.0.0.0"
+        - "--ui.hideTopBar=True"
+        - "--client.toolbarMode=viewer"
+        - "--server.sslCertFile=/etc/letsencrypt/live/movies.altbox.one/fullchain.pem"
+        - "--server.sslKeyFile=/etc/letsencrypt/live/movies.altbox.one/privkey.pem"
         resources:
           requests:
             memory: "512Mi"

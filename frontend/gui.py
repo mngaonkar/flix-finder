@@ -1,4 +1,5 @@
 import concurrent.futures
+from functools import lru_cache
 import math
 import re
 import requests
@@ -31,7 +32,7 @@ def is_valid_image_url(url: str) -> bool:
     return any(clean.endswith(ext) for ext in IMAGE_EXTENSIONS)
 
 
-@st.cache_data(ttl=86400, show_spinner=False)
+@lru_cache(maxsize=2048)
 def verify_image_url(url: str) -> str:
     """Verify image URL exists using lightweight HEAD request with fallback."""
     if not is_valid_image_url(url):
@@ -89,7 +90,9 @@ def search_similar_content(_vector_store, search_query: str):
 class GUI():
     def __init__(self):
         self.num_cols = constants.NUM_COLUMNS
-        self.dataset, self.loader, self.vector_store = get_backend()
+        self.dataset = None
+        self.loader = None
+        self.vector_store = None
 
     def print_movie_names(self, movie_data):
         """Print the movie names."""
@@ -100,6 +103,8 @@ class GUI():
 
     def get_similar_content(self, search_query):
         """Get the context of the search with caching."""
+        if self.vector_store is None:
+            self.dataset, self.loader, self.vector_store = get_backend()
         return search_similar_content(self.vector_store, search_query)
 
     def update_movie_recommendations(self, movie_data):
@@ -146,6 +151,7 @@ class GUI():
 
     def run(self):
         st.set_page_config(page_title="Flix Finder", page_icon="🐰", layout="wide")
+        self.dataset, self.loader, self.vector_store = get_backend()
 
         hide_streamlit_style = """
         <style>
@@ -160,7 +166,7 @@ class GUI():
         with st.container(border=True):
             search_col1, search_col2 = st.columns([4, 1], gap="small", vertical_alignment="center")
             with search_col1:
-                search_query = st.text_input("", "", label_visibility="collapsed", key="search_query")
+                search_query = st.text_input("Search movies", "", label_visibility="collapsed", key="search_query")
 
             with search_col2:
                 search_button = st.button("Search")
