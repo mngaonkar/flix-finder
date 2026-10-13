@@ -145,7 +145,7 @@ class GUI():
                     wiki_link = f"https://en.wikipedia.org/wiki/{caption.replace(' ', '_')}"
                     poster_url = resolved_images[index]
 
-                    col.image(poster_url, use_column_width=True)
+                    col.image(poster_url, use_container_width=True)
                     col.markdown(f"[{caption}]({wiki_link})")
                     index += 1
 

@@ -1,1 +1,8 @@
 .DS_Store
+.venv/
+gui.log
+__pycache__/
+*.pyc
+config.json
+database/*.db
+
